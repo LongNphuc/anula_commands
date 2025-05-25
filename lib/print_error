@@ -1,0 +1,16 @@
+#!/bin/sh
+
+print_error() {
+    case $1 in
+        "-c")
+            shift
+            error_status=$1
+            shift
+            ;;
+    esac
+    error_status=$([ "$error_status" = "" ] && echo 1 || echo "$error_status")
+    echo "$@" 1>&2 && echo "$error_status"
+}
+
+print_error "$@" "$error_status"
+

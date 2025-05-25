@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# frist message, second message
+print_usage() {
+    echo "$@" | sed 's/^  *//' | awk -F, 'BEGIN{printf("Commands:\n")} {printf("  %-35s   %s\n", $1, $2)}' 1>&2 && echo 1
+}
+
+print_usage "$@"

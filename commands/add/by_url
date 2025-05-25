@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# $1: project githubUrl
+
+by_uri() {
+    project_name=$(echo "$1" | sed 's%^..*/\([^/][^/]*\).git$%\1%')
+    [ "$project_name" = "" ] && return "$("$ANULA_LIB/print_error" "project invalid")"
+    [ -d "$ANULA_PROJECTS/$project_name" ] && return "$("$ANULA_LIB/print_error" "project $project_name already exist")"
+    git -C "$ANULA_PROJECTS" clone "$1"
+}
+
+by_uri "$@"

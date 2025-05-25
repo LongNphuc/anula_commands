@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# $1: name project
+
+add() {
+    [ "$1" = "" ] && return "$("$ANULA_LIB/print_error" "anula add: Please insert name project or gitUrl")"
+    awk < "$ANULA_STORE/store_projects" '{print $1}' | grep -q '^'"$1"'$' && "$ANULA_COMMANDS/add/by_name" "$1" && return
+    (echo "$1" | grep '^git@github') && "$ANULA_COMMANDS/add/by_uri" "$1" && return
+
+    return "$("$ANULA_LIB/print_error" "anula add: project not esixt!")"
+}
+
+add "$@"

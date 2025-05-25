@@ -1,0 +1,56 @@
+#!/bin/sh
+
+set -e
+
+ANULA_REPOSITORY_ROOT="$(
+    cd "$(dirname "$0")/.."
+    pwd
+)"
+ANULA_STORE=$ANULA_REPOSITORY_ROOT/store
+ANULA_LIB=$ANULA_REPOSITORY_ROOT/lib
+ANULA_COMMANDS=$ANULA_REPOSITORY_ROOT/commands
+ANULA_PROJECTS=$ANULA_REPOSITORY_ROOT/projects
+
+export ANULA_COMMANDS ANULA_LIB ANULA_STORE ANULA_PROJECTS
+
+usage() {
+    return "$(
+        "$ANULA_LIB/print_usage" "$(
+            cat << END
+Welcome, File anula is the first project command long build.
+END
+        )"
+    )"
+}
+
+command=$1
+[ $# -gt 0 ] && shift
+case $command in 
+    welcome)
+        "$ANULA_COMMANDS/welcome.sh"
+        ;;
+    add)
+        "$ANULA_COMMANDS/add/self" "$@"
+        ;;
+    remove | rm)
+        "$ANULA_COMMANDS/remove.sh" "$@"
+        ;;
+    start)
+        "$ANULA_COMMANDS/start.sh" "$@"
+        ;;
+    stop)
+        "$ANULA_COMMANDS/stop.sh" "$@"
+        ;;
+    list | ls)
+        "$ANULA_COMMANDS/list.sh" "$@"
+        ;;
+    cd)
+        "$ANULA_COMMANDS/cd.sh" "$@"
+        ;;
+    edit)
+        "$ANULA_COMMANDS/edit.sh" "$@"
+        ;;
+    *)
+        usage
+        ;;
+esac
